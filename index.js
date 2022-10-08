@@ -3,10 +3,14 @@ const inquirer = require('inquirer');
 const fs = require('fs');
 
 // Generates a README with the user's answers to the prompt questions
-const generateREADME = ({ title, license, description, installation, usage, contributing, tests, github, email }) =>
+const generateREADME = ({ title, description, installation, usage, license, contributing, tests, github, email }) =>
 `
 # ${title}
-![License](https://img.shields.io/badge/license-${license.toLowerCase()}-blue.svg)
+
+![License](https://img.shields.io/badge/license-${license}-blue.svg)
+
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](code_of_conduct.md)
+
 ## Description
 
 ${description}
@@ -30,13 +34,15 @@ ${usage}
 
 ## License 
 
-${license}
+${title} is available under the ${license} license.
 
-[License link](https://choosealicense.com/licenses/${license.toLowerCase()}/)
+Please see [LICENSE](https://choosealicense.com/licenses/${license.toLowerCase()}/) for the full details of the license.
 
 ## Contributing 
 
 ${contributing}
+
+The contributors of this application have adopted the Contributor Covenant Code of Conduct. Please visit the [Code of Conduct](./CODE_OF_CONDUCT) page for details.
 
 ## Tests 
 
@@ -44,11 +50,11 @@ ${tests}
 
 ## Questions 
 
-Please feel free to reach out to me via the contact information below with any additional questions. 
+Please reach out via the the links below with any additional questions. 
 
-[GitHub Link](https://github.com/${github})
+[GitHub](https://github.com/${github})
 
-[Email link](mailto:${email})
+[Email](mailto:${email})
 `;
 
 // Questions for the user
@@ -88,7 +94,7 @@ inquirer
       type: 'list',
       message: 'Choose a license for your application.',
       name: 'license',
-      choices: ['MIT', 'BSD', 'GNU GPLv3', 'Apache 2.0']
+      choices: ['MPL-2.0', 'MIT', 'BSL-1.0', 'Apache-2.0']
     },
     {
       type: 'input',
@@ -106,7 +112,7 @@ inquirer
 .then((answers) => {
   const readmeFileContent = generateREADME(answers);
 
-  fs.writeFile(`${answers.title}.md`, readmeFileContent, (err) => 
-  err ? console.log(err) : console.log('A README.md was successfully created!') 
+  fs.writeFile('README.md', readmeFileContent, (err) => 
+  err ? console.log(err) : console.log('Your README.md was successfully created!') 
   );
 });
