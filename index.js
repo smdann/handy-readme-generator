@@ -1,14 +1,60 @@
 // Packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
+const { title } = require('process');
+
+const generateREADME = ({ title, description, installation, usage, contributing, tests, license, github, email }) =>
+`
+# ${title}
+
+## Description
+
+${description}
+
+## Table of Contents
+
+- [Installation] (#installation)
+- [Usage] (#usage)
+- [License] (#license)
+- [Contributing] (#contributing)
+- [Tests] (#tests)
+- [Questions] (#questions)
+
+## Installation {#installation}
+
+${installation}
+
+## Usage {#usage}
+
+${usage}
+
+## License {#license}
+
+${license}
+
+## Contributing {#contributing}
+
+${contributing}
+
+## Tests {#tests}
+
+${tests}
+
+## Questions {#questions}
+
+Please feel free to reach out to me via the contact information below with any additional questions.
+
+GitHub: ${github}
+
+Email: ${email}`;
 
 // Questions for the user
 inquirer
-  .createPromptModule([
+  .prompt([
     {
       type: 'input',
       message: 'What is the project title?',
-      name: 'project title',
+      name: 'title',
     },
     {
       type: 'input',
@@ -53,11 +99,20 @@ inquirer
     }
   ])
 
+.then((answers) => {
+  const readmeFileContent = generateREADME(answers);
+
+  fs.writeFile('README.md', readmeFileContent, (err) => 
+  err ? console.log(err) : console.log('A README.md was successfully created!') 
+  );
+});
+
+
 // TODO: Create a function to write README file
 function writeToFile(fileName, data) {}
 
-// TODO: Create a function to initialize app
+// // TODO: Create a function to initialize app
 function init() {}
 
-// Function call to initialize app
+// // Function call to initialize app
 init();
