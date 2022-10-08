@@ -1,52 +1,55 @@
 // Packages needed for this application
 const inquirer = require('inquirer');
 const fs = require('fs');
-const { title } = require('process');
 
-const generateREADME = ({ title, description, installation, usage, contributing, tests, license, github, email }) =>
+// Generates a README with the user's answers to the prompt questions
+const generateREADME = ({ title, license, description, installation, usage, contributing, tests, github, email }) =>
 `
 # ${title}
-
+![License](https://img.shields.io/badge/license-${license.toLowerCase()}-blue.svg)
 ## Description
 
 ${description}
 
 ## Table of Contents
 
-- [Installation] (#installation)
-- [Usage] (#usage)
-- [License] (#license)
-- [Contributing] (#contributing)
-- [Tests] (#tests)
-- [Questions] (#questions)
+- [Installation](#installation)
+- [Usage](#usage)
+- [License](#license)
+- [Contributing](#contributing)
+- [Tests](#tests)
+- [Questions](#questions)
 
-## Installation {#installation}
+## Installation 
 
 ${installation}
 
-## Usage {#usage}
+## Usage 
 
 ${usage}
 
-## License {#license}
+## License 
 
 ${license}
 
-## Contributing {#contributing}
+[License link](https://choosealicense.com/licenses/${license.toLowerCase()}/)
+
+## Contributing 
 
 ${contributing}
 
-## Tests {#tests}
+## Tests 
 
 ${tests}
 
-## Questions {#questions}
+## Questions 
 
-Please feel free to reach out to me via the contact information below with any additional questions.
+Please feel free to reach out to me via the contact information below with any additional questions. 
 
-GitHub: ${github}
+[GitHub Link](https://github.com/${github})
 
-Email: ${email}`;
+[Email link](mailto:${email})
+`;
 
 // Questions for the user
 inquirer
@@ -99,20 +102,11 @@ inquirer
     }
   ])
 
+// Function to generate the README with the user's answers and to write the README.md file
 .then((answers) => {
   const readmeFileContent = generateREADME(answers);
 
-  fs.writeFile('README.md', readmeFileContent, (err) => 
+  fs.writeFile(`${answers.title}.md`, readmeFileContent, (err) => 
   err ? console.log(err) : console.log('A README.md was successfully created!') 
   );
 });
-
-
-// TODO: Create a function to write README file
-function writeToFile(fileName, data) {}
-
-// // TODO: Create a function to initialize app
-function init() {}
-
-// // Function call to initialize app
-init();
